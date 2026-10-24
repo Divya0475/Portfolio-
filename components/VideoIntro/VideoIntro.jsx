@@ -264,9 +264,11 @@ export default function VideoIntro({
       <CinematicLayer ref={layerRef} />
 
       <div className={styles.content} data-anim="content">
-        <p className={styles.tagline} data-anim="tagline">
-          {tagline}
-        </p>
+        {tagline && (
+          <p className={styles.tagline} data-anim="tagline">
+            {tagline}
+          </p>
+        )}
         <h1 className={styles.name}>
           <span className={styles.line}>
             <span className={styles.lineInner} data-anim="line">

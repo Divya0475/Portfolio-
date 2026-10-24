@@ -1,0 +1,27 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: bloom 4s cubic-bezier(0.22, 0.61, 0.36, 1) 1.2s forwards;
+  mix-blend-mode: screen;
+}
+
+.layer canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes bloom {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+  }
+}

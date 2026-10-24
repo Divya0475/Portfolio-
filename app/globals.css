@@ -1,0 +1,67 @@
+:root {
+  --ink: #08070b;
+  --ink-soft: #121018;
+  --cream: #fff1e0;
+  --ember: #ff8a3d;
+  --amber: #ffb36b;
+  --monitor: #5ec8ff;
+  --muted: rgba(255, 241, 224, 0.62);
+  --font-display: system-ui, sans-serif;
+  --font-body: system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--ink);
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--ember);
+  color: var(--ink);
+}
+
+.sheet {
+  position: relative;
+  z-index: 1;
+  background:
+    radial-gradient(60% 30% at 12% 0%, rgba(255, 138, 61, 0.1), transparent 70%),
+    radial-gradient(50% 25% at 95% 6%, rgba(94, 200, 255, 0.06), transparent 70%),
+    var(--ink);
+  box-shadow: 0 -50px 90px rgba(0, 0, 0, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}

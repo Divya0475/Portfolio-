@@ -35,18 +35,26 @@ const Icon = {
 
 export default function Contact({ id, profile, location }) {
   const formRef = useRef(null);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('idle');
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(formRef.current);
-    const name = data.get('name');
-    const from = data.get('email');
-    const message = data.get('message');
-    const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
-    const body = encodeURIComponent(`${message}\n\n${name}\n${from}`);
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-    setStatus('Opening your email app with the message ready to send.');
+    setStatus('sending');
+    try {
+      const res = await fetch(profile.formEndpoint, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(formRef.current),
+      });
+      if (res.ok) {
+        formRef.current.reset();
+        setStatus('success');
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   const copyEmail = async () => {
@@ -127,11 +135,29 @@ export default function Contact({ id, profile, location }) {
                 Message
                 <textarea name="message" rows="5" required />
               </label>
+              <input
+                type="text"
+                name="_gotcha"
+                className={styles.honeypot}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
               <div className={styles.actions}>
-                <button type="submit" className={styles.send}>Send message</button>
+                <button
+                  type="submit"
+                  className={styles.send}
+                  disabled={status === 'sending'}
+                >
+                  {status === 'sending' ? 'Sending...' : 'Send message'}
+                </button>
                 <button type="button" className={styles.ghost} onClick={copyEmail}>Copy email</button>
               </div>
-              <p className={styles.status} role="status" aria-live="polite">{status}</p>
+              <p className={styles.status} role="status" aria-live="polite">
+                {status === 'success' && 'Thanks, your message was sent. I will reply by email.'}
+                {status === 'error' && `Something went wrong. Please email me directly at ${profile.email}.`}
+                {status === 'idle' || status === 'sending' ? '' : null}
+              </p>
             </form>
           </Reveal>
         </div>
